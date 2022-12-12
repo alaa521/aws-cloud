@@ -25,7 +25,7 @@ memcache = {}
 
 app = Flask(__name__, static_url_path='/static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/awss?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:alaa123456@database-2.cvirmchmnfpn.us-east-1.rds.amazonaws.com/awss?charset=utf8mb4'
 db = SQLAlchemy(app)
 sess = Session()
 
