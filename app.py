@@ -316,6 +316,22 @@ def delete():
     my_conn.commit()
     my_conn.close()
     return render_template('displayAllKeys.html')
+@app.route("/manualscaling", methods = ['POST'])
+def manual():
+    capacity = request.form.get('myRange')
+    if capacity==1: 
+       client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity=1)
+    elif capacity==2:
+       client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity=2)  
+    elif capacity==3:
+       client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity=3)  
+    else :
+       client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity=4) 
+    response = client.describe_auto_scaling_groups( AutoScalingGroupNames=['aws-flasks',])
+    number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
+ 
+   
+    return render_template("memcash.html")
 
 # Displays any errors
 if __name__ == "__main__":
