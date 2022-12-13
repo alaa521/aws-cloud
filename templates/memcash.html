@@ -123,8 +123,7 @@
         color: rgb(18, 12, 17);
         font-weight: bold;
         font-size: 20px;
-        
-
+       
 
         }
 
@@ -190,7 +189,7 @@
         position: relative;
         display: inline-block;
         background: linear-gradient(#e9e0dff5 ,#68ade59c);
-        border-radius: 20px;
+        border: 20px;
         border: none;
         font-size: 20px;
         padding: 5px 10px;
@@ -207,10 +206,9 @@
         font-weight: bold;
     }
 label{
-    color:white;
-    height:60px;
-    width:250px;
-    background-color:#272643;
+    color:rgb(248, 248, 251);
+   
+    padding: 10px;
     /* position:absolute; */
     margin-left:0px;
     border-radius:30px;
@@ -220,8 +218,7 @@ label{
     right:0;
     font-size:20px;
     display:flex;
-    justify-content: center;
-    align-items:center;
+        
 }
 
 
@@ -281,8 +278,10 @@ select::-ms-expand{
     position: absolute;
     top: 60%;
     left: 50%;
-    width: 500px;
+    height: 550px;
+    width: 600px;
     padding: 50px;
+    margin-top: 40px;
     transform: translate(-50%, -50%);
     background-color:hsl(208, 54%, 62%);
     box-sizing: border-box;
@@ -342,7 +341,7 @@ select {
 }
 h2 {
     font-family:monospace ;
-    margin-top: 10px;
+    margin-top: 5px;
     padding-top: 40px;
     padding-left: 20px;
    padding-bottom: 20px;
@@ -380,7 +379,7 @@ h2 {
 
    <div class = "topnav">
       <ul class="topnav">
-        <li><a id ="home" href="/"> Upload IMG   </a></li>
+                <li><a id ="home" href="/"> Home   </a></li>
         <li><a href="displayAllKeys">View Key</a></li>
         <li><a href="SearchanImage">Search</a></li>
         <li><a href="memory_Cache">memory cash</a></li>
@@ -394,14 +393,24 @@ h2 {
 
     <h2 >Manager App : </h2>
     <form class="form" method="post" action="saveConfig"  enctype="multipart/form-data" >
+<label>choose Replacment policy: </label>
+
 <div class="select">
             <select name="format" id="format">
-               <option selected disabled>Choose a Replacement Policy</option>
                <option value="Random">Random Replacement</option>
                <option value="Least">Least Recently Used</option>
             </select>
-         </div>
-        <br><br><br>
+          </div>
+          <br>
+          <label>choose between (Automating mode -Manual mode):</label>
+         <div class="select">
+          <select name="format" id="format" aria-placeholder="select one">
+             <option value="Random">Automating mode</option>
+             <option value="Least">Manual mode</option>
+          </select>
+       </div>
+       
+        <br><br>
         <div class="size"> size :  <span id="demo"> </span> </div>
         <div class="selectRang">
             <input type="range" min="1" max="8" value="0" class="select" name="myRange" id="myRange">
@@ -416,13 +425,15 @@ h2 {
             output.innerHTML = this.value;
           }
         </script>
+        
+        
         <div class="dfd">
-        <button class="button2"> Save</button>
          <form class = "clear" method="post" action="clear" enctype="multipart/form-data" >
           <button class="button2"> Clear memcache</button>
          </form>
             <form class = "delete" method="post" action="delete" enctype="multipart/form-data" >
           <button class="button2"> delete data</button>
+
          </form>
 </div>
     </form>
