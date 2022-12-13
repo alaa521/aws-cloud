@@ -25,7 +25,7 @@ memcache = {}
 
 app = Flask(__name__, static_url_path='/static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:alaa123456@database-2.cvirmchmnfpn.us-east-1.rds.amazonaws.com/awss?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:alaa123456@database-1.cchus6kumadp.us-east-1.rds.amazonaws.com/awss?charset=utf8mb4'
 db = SQLAlchemy(app)
 sess = Session()
 
@@ -57,7 +57,7 @@ class MemcacheConfig(db.Model):
 
 # Clear memcache_config table
 with app.app_context():
-    my_conn = pymysql.connect(host='localhost', user='root', password='', db='awss')
+    my_conn = pymysql.connect(host='database-1.cchus6kumadp.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
 
     my_conn.cursor().execute("DROP table IF EXISTS memcache_config")
     db.create_all()
@@ -100,14 +100,14 @@ def allowed_file(filename):
 
 
 def get_db_connection():
-    conn = pymysql.connect(host='localhost', user='root', password='', db='awss')
+    conn = pymysql.connect(host='database-1.cchus6kumadp.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
 
     conn.row_factory = sqlite3.Row
     return conn
 
 
 def get_mem_db_connection():
-    conn = pymysql.connect(host='localhost', user='root', password='', db='awss')
+    conn = pymysql.connect(host='database-1.cchus6kumadp.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
 
     conn.row_factory = sqlite3.Row
     return conn
@@ -310,7 +310,7 @@ def clear():
 
 @app.route('/delete', methods=['POST'])
 def delete():
-    my_conn = pymysql.connect(host='localhost', user='root', password='', db='awss')
+    my_conn = pymysql.connect(host='database-1.cchus6kumadp.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
     my_conn.cursor().execute("DROP table IF EXISTS keyy")
     db.create_all()
     my_conn.commit()
