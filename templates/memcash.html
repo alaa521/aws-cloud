@@ -274,20 +274,6 @@ select::-ms-expand{
     border-color: #2c698d;
 }
 
-.form{
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    height: 550px;
-    width: 600px;
-    padding: 50px;
-    margin-top: 40px;
-    transform: translate(-50%, -50%);
-    background-color:hsl(208, 54%, 62%);
-    box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-    border-radius: 12px;
-}
 
 .select .select{
 position: absolute;
@@ -394,7 +380,6 @@ h2 {
     <h2 >Manager App : </h2>
     <form class="form" method="post" action="saveConfig"  enctype="multipart/form-data" >
 <label>choose Replacment policy: </label>
-
 <div class="select">
             <select name="format" id="format">
                <option value="Random">Random Replacement</option>
@@ -402,43 +387,45 @@ h2 {
             </select>
           </div>
           <br>
-          <label>choose between (Automating mode -Manual mode):</label>
-         <div class="select">
-          <select name="format" id="format" aria-placeholder="select one">
-             <option value="Random">Automating mode</option>
-             <option value="Least">Manual mode</option>
-          </select>
-       </div>
-       
         <br><br>
+    </form>
+
+
+
+    <form  method="post" action="saveConfig1"  enctype="multipart/form-data">
         <div class="size"> size :  <span id="demo"> </span> </div>
         <div class="selectRang">
             <input type="range" min="1" max="8" value="0" class="select" name="myRange" id="myRange">
         </div>
+        <h5>{{number_of_instances}}</h5>
+        <button class="button2"> Manual scaling</button>
+        <!-- <button class="button2"> Auto scaling</button> -->
 
-        <script>
-          var slider = document.getElementById("myRange");
-          var output = document.getElementById("demo");
-          output.innerHTML = slider.value;
+      </form>
 
-          slider.oninput = function() {
-            output.innerHTML = this.value;
-          }
-        </script>
-        
-        
+
+      
         <div class="dfd">
          <form class = "clear" method="post" action="clear" enctype="multipart/form-data" >
           <button class="button2"> Clear memcache</button>
          </form>
             <form class = "delete" method="post" action="delete" enctype="multipart/form-data" >
           <button class="button2"> delete data</button>
-
          </form>
 </div>
-    </form>
+    
 
 </div>
 
+<script>
+  var slider = document.getElementById("myRange");
+  var output = document.getElementById("demo");
+  output.innerHTML = slider.value;
+
+  slider.oninput = function() {
+    output.innerHTML = this.value;
+  }
+</script>
 </body>
+
 </html>

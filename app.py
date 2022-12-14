@@ -253,6 +253,16 @@ def UploadDateToMem():
         flash("Error Added !")
     return redirect("memory_Cache")
 
+@app.route('/saveConfig1', methods=['POST'])
+def manual():
+    if request.method == 'POST':
+        capacity = request.form.get('myRange')
+        client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity= int(capacity)) 
+        response = client.describe_auto_scaling_groups( AutoScalingGroupNames=['aws-flasks',])
+        number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
+
+    return redirect("memory_Cache",number_of_instances=number_of_instances)
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -316,22 +326,6 @@ def delete():
     my_conn.commit()
     my_conn.close()
     return render_template('displayAllKeys.html')
-@app.route("/manualscaling", methods = ['POST'])
-def manual():
-    capacity = request.form.get('myRange')
-    if capacity==1: 
-       client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity=1)
-    elif capacity==2:
-       client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity=2)  
-    elif capacity==3:
-       client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity=3)  
-    else :
-       client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity=4) 
-    response = client.describe_auto_scaling_groups( AutoScalingGroupNames=['aws-flasks',])
-    number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
- 
-   
-    return render_template("memcash.html")
 
 # Displays any errors
 if __name__ == "__main__":
