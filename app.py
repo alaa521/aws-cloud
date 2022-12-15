@@ -229,7 +229,7 @@ def upload_file():
                 else:
                     conn.cursor().execute('INSERT INTO keyy (key_id, img_path) VALUES (%s, %s)', (key_id, img_path))
                     put_in_memcache(key_id, img_path, img_size)
-                    #s3.Bucket("final-buck").upload_file(img_path, key_id)
+                    s3.upload_file(Filename=f"{img_path}",Bucket=app.config['BUCKET_NAME'],Key=key_id)
                     flash("Key Added Successfully!")
         else:
             flash("Please choose a photo that is \'png\', \'jpg\' or \'jpeg\'")
@@ -260,8 +260,7 @@ def manual():
         client.set_desired_capacity(AutoScalingGroupName='aws-flasks', DesiredCapacity= int(capacity)) 
         response = client.describe_auto_scaling_groups( AutoScalingGroupNames=['aws-flasks',])
         number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
-
-    return redirect("memory_Cache",number_of_instances=number_of_instances)
+    return render_template('memcash.html', number_of_instances=number_of_instances)
 
 
 @app.route('/search', methods=['GET', 'POST'])
