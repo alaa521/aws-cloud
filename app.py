@@ -321,14 +321,16 @@ def clear():
 
 @app.route('/searchs3', methods=['GET', 'POST'])
 def searchs3():
-    key_id = request.form.get('img_key')
-    image = s3.generate_presigned_url('get_object', Params = {'Bucket': "aws-flask-proj", 'Key': key_id}, ExpiresIn = 100)
+    key_id = request.form.get('img_key') + ".png"
+    image = s3.generate_presigned_url('get_object', Params = {'Bucket': app.config['BUCKET_NAME'], 'Key': key_id})
     image = image.split("?")
-    return render_template('displays3.html',image=image)
+    return render_template('displays3.html',image=image[0])
 
 @app.route('/clears3', methods=['POST'])
 def clears3():
-    app.config['BUCKET_NAME'].objects.all().delete()
+    response = s3.list_objects_v2(Bucket=app.config['BUCKET_NAME'])
+    for object in response['Contents']:
+       s3.delete_object(Bucket=app.config['BUCKET_NAME'], Key=object['Key'])
     return render_template('displays3.html')
 
 @app.route('/delete', methods=['POST'])
