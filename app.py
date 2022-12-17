@@ -322,7 +322,7 @@ def clear():
 @app.route('/searchs3', methods=['GET', 'POST'])
 def searchs3():
     key_id = request.form.get('img_key')
-    # image = s3.generate_presigned_url('get_object', Params = {'Bucket': "aws-flask-proj", 'Key': key_id}, ExpiresIn = 100)
+    image = s3.generate_presigned_url('get_object', Params = {'Bucket': "aws-flask-proj", 'Key': key_id}, ExpiresIn = 100)
     image = image.split("?")
     return render_template('displays3.html',image=image)
 
