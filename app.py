@@ -25,11 +25,10 @@ memcache = {}
 
 app = Flask(__name__, static_url_path='/static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:alaa123456@database-1.cchus6kumadp.us-east-1.rds.amazonaws.com/awss?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:alaa123456@database-1.cirdwcipas5m.us-east-1.rds.amazonaws.com/awss?charset=utf8mb4'
 db = SQLAlchemy(app)
 sess = Session()
 
-S3_BUCKET = "final-buck"
 @app.route('/chart.html', methods=["GET"])
 def page1(): 
     subject= request.args.get('page1')
@@ -100,14 +99,14 @@ def allowed_file(filename):
 
 
 def get_db_connection():
-    conn = pymysql.connect(host='database-1.cchus6kumadp.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
+    conn = pymysql.connect(host='database-1.cirdwcipas5m.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
 
     conn.row_factory = sqlite3.Row
     return conn
 
 
 def get_mem_db_connection():
-    conn = pymysql.connect(host='database-1.cchus6kumadp.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
+    conn = pymysql.connect(host='database-1.cirdwcipas5m.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
 
     conn.row_factory = sqlite3.Row
     return conn
@@ -180,6 +179,9 @@ def main():
 def SearchanImage():
     return render_template('SearchanImage.html')
 
+@app.route('/displays3')
+def displays3():
+    return render_template('displays3.html')
 
 @app.route('/memory_Cache')
 def memory_Cache():
@@ -229,7 +231,8 @@ def upload_file():
                 else:
                     conn.cursor().execute('INSERT INTO keyy (key_id, img_path) VALUES (%s, %s)', (key_id, img_path))
                     put_in_memcache(key_id, img_path, img_size)
-                    s3.upload_file(Filename=f"{img_path}",Bucket=app.config['BUCKET_NAME'],Key=key_id)
+                    key11= key_id + ".png"
+                    s3.upload_file(Filename=f"{img_path}",Bucket=app.config['BUCKET_NAME'],Key=key11)
                     flash("Key Added Successfully!")
         else:
             flash("Please choose a photo that is \'png\', \'jpg\' or \'jpeg\'")
@@ -316,10 +319,21 @@ def clear():
     clear_memcache()
     return render_template('memory_Cache.html')
 
+@app.route('/searchs3', methods=['GET', 'POST'])
+def searchs3():
+    key_id = request.form.get('img_key')
+    # image = s3.generate_presigned_url('get_object', Params = {'Bucket': "aws-flask-proj", 'Key': key_id}, ExpiresIn = 100)
+    image = image.split("?")
+    return render_template('displays3.html',image=image)
+
+@app.route('/clears3', methods=['POST'])
+def clears3():
+    app.config['BUCKET_NAME'].objects.all().delete()
+    return render_template('displays3.html')
 
 @app.route('/delete', methods=['POST'])
 def delete():
-    my_conn = pymysql.connect(host='database-1.cchus6kumadp.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
+    my_conn = pymysql.connect(host='database-1.cirdwcipas5m.us-east-1.rds.amazonaws.com', user='admin', password='alaa123456', db='awss')
     my_conn.cursor().execute("DROP table IF EXISTS keyy")
     db.create_all()
     my_conn.commit()
